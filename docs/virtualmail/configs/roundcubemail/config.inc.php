@@ -11,7 +11,7 @@
 // For examples see http://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
 // NOTE: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
 //       or (Windows): 'sqlite:///C:/full/path/to/sqlite.db'
-$config['db_dsnw'] = 'pgsql://exim:exim@exim-db/roundcube';
+$config['db_dsnw'] = 'pgsql://@SQL_USER;:@SQL_PASSWORD;@@SQL_HOST;/@SQL_DB;';
 
 // you can define specific table (and sequence) names prefix
 $config['db_prefix'] = '';
