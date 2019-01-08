@@ -56,7 +56,7 @@ $config['imap_conn_options'] = array(
 // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
 // %z - IMAP domain (IMAP hostname without the first part)
 // For example %n = mail.domain.tld, %t = domain.tld
-$config['smtp_server'] = 'exim';
+$config['smtp_server'] = '@IMAP_HOST;';
 
 // SMTP port (default is 25; use 587 for STARTTLS or 465 for the
 // deprecated SSL over SMTP (aka SMTPS))
@@ -80,7 +80,7 @@ $config['support_url'] = '';
 $config['des_key'] = 'TsPx9u3pl3u4GufKrac1SGmU';
 
 // Name your service. This is displayed on the login screen and in the window title
-$config['product_name'] = 'Inno Global';
+$config['product_name'] = '@PRODUCT_TITLE;';
 
 // ----------------------------------
 // PLUGINS
