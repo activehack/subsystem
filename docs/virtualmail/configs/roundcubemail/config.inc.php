@@ -1,6 +1,7 @@
 <?php
 $config['db_dsnw'] = 'pgsql://@SQL_USER;:@SQL_PASSWORD;@@SQL_HOST;/@ROUNDCUBE_DB;';
 $config['log_driver'] = 'stdout';
+$config['des_key'] = 'QebBz4OgCquj9xW66cfd84EC';
 $config['default_host'] = 'tls://@IMAP_HOST;';
 $config['default_port'] = 143;
 $config['smtp_server'] = 'tls://@SMTP_HOST;';
@@ -34,7 +35,7 @@ $config['generic_message_footer'] = '';
 $config['generic_message_footer_html'] = '';
 $config['http_received_header'] = false;
 $config['http_received_header_encrypt'] = false;
-$config['plugins'] = array('emoticons', 'managesieve', 'password', 'subscriptions_option', 'zipdownload');
+$config['plugins'] = array('additional_message_headers', 'archive', 'attachment_reminder', 'emoticons', 'identity_select', 'managesieve', 'password', 'show_additional_headers', 'subscriptions_option', 'vcard_attachments', 'zipdownload');
 $config['default_charset'] = 'UTF-8';
 $config['skin'] = 'larry';
 $config['timezone'] = 'Asia/Kuala_Lumpur';
