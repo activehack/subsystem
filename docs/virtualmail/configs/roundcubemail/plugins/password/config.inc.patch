@@ -1,0 +1,22 @@
+--- config.inc.php.dist
++++ config.inc.php
+@@ -98,7 +98,7 @@
+ // %t - hostname without the first part
+ // %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
+ // %z - IMAP domain (IMAP hostname without the first part)
+-$config['password_db_dsn'] = '';
++$config['password_db_dsn'] = 'pgsql://@SQL_USER;:@SQL_PASSWORD;@@SQL_HOST;/@SQL_DB;';
+ 
+ // The SQL query used to change the password.
+ // The query can contain the following macros that will be expanded as follows:
+@@ -123,7 +123,9 @@
+ //      %q is replaced with the hashed password before the change
+ // Escaping of macros is handled by this module.
+ // Default: "SELECT update_passwd(%c, %u)"
+-$config['password_query'] = 'SELECT update_passwd(%c, %u)';
++
++//$config['password_query'] = 'SELECT update_passwd(%c, %u)';
++$config['password_query'] = 'UPDATE "accounts" SET "secret"=%p WHERE "secret"=%o AND "username"=%l AND "domain"=%d AND "status"=\'OK\'';
+ 
+ // By default the crypt() function which is used to create the %c
+ // parameter uses the md5 algorithm (deprecated, use %P).
