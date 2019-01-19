@@ -30,28 +30,20 @@ CREATE TABLE IF NOT EXISTS list_members (
 
 ALTER TABLE ONLY accounts DROP CONSTRAINT IF EXISTS accounts_index0;
 ALTER TABLE ONLY accounts ADD CONSTRAINT accounts_index0 UNIQUE (username, domain);
-
 ALTER TABLE ONLY accounts DROP CONSTRAINT IF EXISTS accounts_pkey;
 ALTER TABLE ONLY accounts ADD CONSTRAINT accounts_pkey PRIMARY KEY (id);
-
 ALTER TABLE ONLY domains DROP CONSTRAINT IF EXISTS domains_index0;
 ALTER TABLE ONLY domains ADD CONSTRAINT domains_index0 UNIQUE (domain);
-
 ALTER TABLE ONLY domains DROP CONSTRAINT IF EXISTS domains_pkey;
 ALTER TABLE ONLY domains ADD CONSTRAINT domains_pkey PRIMARY KEY (domain);
-
 ALTER TABLE ONLY list_accounts DROP CONSTRAINT IF EXISTS list_accounts_index0;
 ALTER TABLE ONLY list_accounts ADD CONSTRAINT list_accounts_index0 UNIQUE (name, domain);
-
 ALTER TABLE ONLY list_accounts DROP CONSTRAINT IF EXISTS list_accounts_pkey;
 ALTER TABLE ONLY list_accounts ADD CONSTRAINT list_accounts_pkey PRIMARY KEY (id);
-
 ALTER TABLE ONLY list_members DROP CONSTRAINT IF EXISTS list_members_index0;
 ALTER TABLE ONLY list_members ADD CONSTRAINT list_members_index0 UNIQUE (member_email);
-
 ALTER TABLE ONLY list_members DROP CONSTRAINT IF EXISTS list_members_key;
 ALTER TABLE ONLY list_members ADD CONSTRAINT list_members_key PRIMARY KEY (id);
-
 CREATE INDEX IF NOT EXISTS domains_index1 ON domains USING btree (status);
 CREATE INDEX IF NOT EXISTS domains_index2 ON domains USING btree (domain, status);
 CREATE INDEX IF NOT EXISTS list_account_index1 ON list_accounts USING btree (status, name, domain);
