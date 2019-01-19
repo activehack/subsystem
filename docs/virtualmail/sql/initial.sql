@@ -41,7 +41,7 @@ ALTER TABLE ONLY list_accounts ADD CONSTRAINT list_accounts_index0 UNIQUE (name,
 ALTER TABLE ONLY list_accounts DROP CONSTRAINT IF EXISTS list_accounts_pkey;
 ALTER TABLE ONLY list_accounts ADD CONSTRAINT list_accounts_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY list_members DROP CONSTRAINT IF EXISTS list_members_index0;
-ALTER TABLE ONLY list_members ADD CONSTRAINT list_members_index0 UNIQUE (list_account,member_email);
+ALTER TABLE ONLY list_members ADD CONSTRAINT list_members_index0 UNIQUE (list_account, member_email);
 ALTER TABLE ONLY list_members DROP CONSTRAINT IF EXISTS list_members_key;
 ALTER TABLE ONLY list_members ADD CONSTRAINT list_members_key PRIMARY KEY (id);
 CREATE INDEX IF NOT EXISTS domains_index1 ON domains USING btree (status);
