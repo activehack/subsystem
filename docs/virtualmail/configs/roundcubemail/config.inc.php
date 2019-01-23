@@ -6,7 +6,9 @@ $config['default_host'] = 'tls://@IMAP_HOST;';
 $config['default_port'] = 143;
 $config['smtp_server'] = 'tls://@SMTP_HOST;';
 $config['smtp_port'] = 25;
-$config['smtp_helo_host'] = '';
+$config['smtp_user'] = '%u';
+$config['smtp_pass'] = '%p';
+$config['smtp_helo_host'] = '@SMTP_HOST;';
 $config['imap_conn_options'] = array(
   'ssl'=>array('verify_peer'=>false,'verify_peer_name'=>false),
   'tls'=>array('verify_peer'=>false,'verify_peer_name'=>false)
