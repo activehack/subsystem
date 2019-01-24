@@ -44,4 +44,3 @@ $config['skin'] = 'larry';
 $config['timezone'] = 'Asia/Kuala_Lumpur';
 $config['show_images'] = 2;
 $config['htmleditor'] = 1;
-
