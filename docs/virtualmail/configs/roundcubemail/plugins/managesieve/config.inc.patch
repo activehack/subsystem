@@ -1,0 +1,43 @@
+--- config.inc.php.dist
++++ config.inc.php
+@@ -2,7 +2,7 @@
+ 
+ // managesieve server port. When empty the port will be determined automatically
+ // using getservbyname() function, with 4190 as a fallback.
+-$config['managesieve_port'] = null;
++$config['managesieve_port'] = 4190;
+ 
+ // managesieve server address, default is localhost.
+ // Replacement variables supported in host name:
+@@ -10,7 +10,7 @@
+ // %n - http hostname ($_SERVER['SERVER_NAME'])
+ // %d - domain (http hostname without the first part)
+ // For example %n = mail.domain.tld, %d = domain.tld
+-$config['managesieve_host'] = 'localhost';
++$config['managesieve_host'] = '%h';
+ 
+ // authentication method. Can be CRAM-MD5, DIGEST-MD5, PLAIN, LOGIN, EXTERNAL
+ // or none. Optional, defaults to best method supported by server.
+@@ -26,7 +26,7 @@
+ 
+ // use or not TLS for managesieve server connection
+ // Note: tls:// prefix in managesieve_host is also supported
+-$config['managesieve_usetls'] = false;
++$config['managesieve_usetls'] = true;
+ 
+ // Connection scket context options
+ // See http://php.net/manual/en/context.ssl.php
+@@ -39,10 +39,10 @@
+ //   ),
+ // );
+ // Note: These can be also specified as an array of options indexed by hostname
+-$config['managesieve_conn_options'] = null;
++$config['managesieve_conn_options'] = array('ssl'=>array('verify_peer'=>false,'verify_peer_name'=>false),'tls'=>array('verify_peer'=>false,'verify_peer_name'=>false));
+ 
+ // default contents of filters script (eg. default spam filter)
+-$config['managesieve_default'] = '/etc/dovecot/sieve/global';
++$config['managesieve_default'] = '/opt/mail/global/default.sieve';
+ 
+ // The name of the script which will be used when there's no user script
+ $config['managesieve_script_name'] = 'managesieve';
+ 
