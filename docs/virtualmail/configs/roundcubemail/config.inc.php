@@ -5,10 +5,10 @@ $config['des_key'] = 'QebBz4OgCquj9xW66cfd84EC';
 $config['default_host'] = 'tls://@IMAP_HOST;';
 $config['default_port'] = 143;
 $config['smtp_server'] = 'tls://@SMTP_HOST;';
-$config['smtp_port'] = 25;
+$config['smtp_port'] = 587;
 $config['smtp_user'] = '';
 $config['smtp_pass'] = '';
-$config['smtp_helo_host'] = 'ROUNDCUBE';
+$config['smtp_helo_host'] = springf('s.%s.1blob.com',time())
 $config['smtp_auth_type'] = 'PLAIN';
 $config['imap_conn_options'] = array(
   'ssl'=>array('verify_peer'=>false,'verify_peer_name'=>false),
