@@ -8,7 +8,8 @@ $config['smtp_server'] = 'tls://@SMTP_HOST;';
 $config['smtp_port'] = 25;
 $config['smtp_user'] = '%u';
 $config['smtp_pass'] = '%p';
-$config['smtp_helo_host'] = '@SMTP_HOST;';
+$config['smtp_helo_host'] = 'ROUNDCUBEWEBMAIL';
+$config['smtp_auth_type'] = 'PLAIN';
 $config['imap_conn_options'] = array(
   'ssl'=>array('verify_peer'=>false,'verify_peer_name'=>false),
   'tls'=>array('verify_peer'=>false,'verify_peer_name'=>false)
