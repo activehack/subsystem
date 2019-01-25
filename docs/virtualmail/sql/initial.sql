@@ -28,6 +28,12 @@ CREATE TABLE IF NOT EXISTS list_members (
     status character varying(16) NOT NULL
 ) WITHOUT OIDS;
 
+CREATE TABLE IF NOT EXISTS relay_hosts (
+    id SERIAL,
+    host character varying(128) NOT NULL,
+    status character varying(16) NOT NULL
+) WITHOUT OIDS;
+
 ALTER TABLE ONLY accounts DROP CONSTRAINT IF EXISTS accounts_index0;
 ALTER TABLE ONLY accounts ADD CONSTRAINT accounts_index0 UNIQUE (username, domain);
 ALTER TABLE ONLY accounts DROP CONSTRAINT IF EXISTS accounts_pkey;
@@ -36,6 +42,8 @@ ALTER TABLE ONLY domains DROP CONSTRAINT IF EXISTS domains_index0;
 ALTER TABLE ONLY domains ADD CONSTRAINT domains_index0 UNIQUE (domain);
 ALTER TABLE ONLY domains DROP CONSTRAINT IF EXISTS domains_pkey;
 ALTER TABLE ONLY domains ADD CONSTRAINT domains_pkey PRIMARY KEY (domain);
+ALTER TABLE ONLY relay_hosts DROP CONSTRAINT IF EXISTS relay_hosts_pkey;
+ALTER TABLE ONLY relay_hosts ADD CONSTRAINT relay_hosts_pkey PRIMARY KEY (host);
 ALTER TABLE ONLY list_accounts DROP CONSTRAINT IF EXISTS list_accounts_index0;
 ALTER TABLE ONLY list_accounts ADD CONSTRAINT list_accounts_index0 UNIQUE (name, domain);
 ALTER TABLE ONLY list_accounts DROP CONSTRAINT IF EXISTS list_accounts_pkey;
