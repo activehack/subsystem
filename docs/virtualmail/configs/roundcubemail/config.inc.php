@@ -41,6 +41,7 @@ $config['http_received_header_encrypt'] = false;
 $config['plugins'] = array('additional_message_headers', 'archive', 'attachment_reminder', 'emoticons', 'identity_select', 'managesieve', 'password', 'show_additional_headers', 'subscriptions_option', 'vcard_attachments', 'zipdownload');
 $config['default_charset'] = 'UTF-8';
 $config['skin'] = 'larry';
+$config['layout'] = 'desktop';
 $config['timezone'] = 'Asia/Kuala_Lumpur';
 $config['show_images'] = 2;
 $config['htmleditor'] = 1;
