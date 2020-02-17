@@ -1,0 +1,175 @@
+#!/usr/local/bin/node
+const fs = require('fs')
+const path = require('path')
+const tmp = require('tmp')
+const dust = require('dustjs-linkedin')
+const { exec } = require("child_process")
+const { PubSub } = require('@google-cloud/pubsub')
+
+if (fs.existsSync(__dirname + '/.env')) {
+  require('dotenv').config()
+}
+
+const get_updated_files = ()=>{
+  return new Promise((resolve, reject)=>{
+    exec(`git -C ${process.env.BITBUCKET_CLONE_DIR} diff --name-status HEAD^..HEAD`, (err, stdout, stderr)=>{
+      if (err) {
+        reject(err)
+      } else {
+        const ret = []
+        const u = stdout.trim().split(/\n+/g)
+        u.forEach((r)=>{
+          const x = r.split(/\t+/g)
+          ret.push({name: `${process.env.BITBUCKET_CLONE_DIR}/${x[1]}`, status:x[0]})
+        })
+        resolve(ret)
+      }
+    })
+  })
+}
+
+const get_service_account = ()=>{
+  return new Promise((resolve, reject)=>{
+    tmp.file((err, fn, fd)=>{
+      if (err) {
+        reject(err)
+      } else {
+        const buf = Buffer.from(process.env.SERVICE_ACCOUNT, 'base64')
+        fs.writeFile(fn, buf, (err)=>{
+          if (err) {
+            reject(err)
+          } else {
+            resolve(fn)
+          }
+        })
+      }
+    })
+  })
+}
+
+const get_compiled_data = (fin)=>{
+  console.log(`Reading ${fin}...`)
+  return new Promise((resolve, reject)=>{
+    fs.readFile(fin, {encoding: 'utf8'},(err, src)=>{
+      if (err) {
+        console.log('Error!')
+        console.log(err)
+        reject(err)
+      } else {
+        console.log('Compiling...')
+        const compiled = dust.compile(src)
+        const ret = {
+          name: path.basename(fin, '.dust'), 
+          output: Buffer.from(compiled).toString('base64'), 
+          action: 'UPDATE'
+        }
+        resolve(ret)
+      }
+    }) 
+  })
+}
+
+const work = ()=>{
+
+  const _publish = (topic, u) => {
+
+    const _send = (data)=>{
+      return new Promise((resolve, reject)=>{
+        topic.publishJSON(data)
+        .then((messageId)=>{
+          resolve(messageId)          
+        })
+        .catch((err)=>{
+          reject(err)
+        })
+      })
+    }
+
+    return new Promise((resolve, reject)=>{
+
+      if (['D'].includes(u.status)) {
+        _send({name: path.basename(u.name,'.dust'), output: null, action:'DELETE'})
+        .then((messageId)=>{
+          resolve({
+            'status':'OK',
+            'data': messageId
+          })
+        })
+        .catch((err)=>{
+          reject({
+            'status': 'FAIL',
+            'err': err
+          })
+        })
+      }
+
+      if (['M','A'].includes(u.status)) {
+        get_compiled_data(u.name)
+        .then((ret)=>{
+          _send(ret)
+          .then((messageId)=>{
+            resolve({'sttaus':'OK', 'data':messageId})
+          })
+          .catch((err)=>{
+            resolve({'status':'FAIL', 'err':err})
+          })
+        })
+        .catch((err)=>{
+          resolve({
+            'status':'FAIL',
+            'err':err
+          })
+        })
+      }
+    })
+  }
+
+  //Get service account ready
+  get_service_account()
+  .then((sa)=>{
+    console.log(`Found SA file at: ${sa}`)
+    const ps = []
+    const pubsub = new PubSub({
+      projectId: process.env.PROJECT_ID,
+      keyFilename: sa
+    })
+    const topic = pubsub.topic(process.env.TOPIC)
+
+    //Get latest files
+    get_updated_files()
+    .then((updates)=>{
+      updates.forEach((u)=>{
+        ps.push(_publish(topic, u))
+      })
+      Promise.all(ps)
+      .then((vv)=>{
+        return vv
+      })
+      .then((vv)=>{
+        console.log(vv)
+        console.log(['deleting',sa])
+        fs.unlink(sa, (err) => {
+          if (err) {
+            console.log(['delete fail!',sa])
+          } else {
+            console.log(['deleted',sa])
+          }
+        })
+      })
+      .catch((err)=>{
+        console.log(['fail to queue jobs',err])
+      })
+    })
+    .catch((err)=>{
+      console.log(err)
+      console.log('fail to get files')
+    })
+
+
+  })
+  .catch((err)=>{
+    console.log(['fail to get SA', err])
+  })
+}
+
+work()
