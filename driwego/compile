@@ -20,7 +20,9 @@ const get_updated_files = ()=>{
         const u = stdout.trim().split(/\n+/g)
         u.forEach((r)=>{
           const x = r.split(/\t+/g)
-          ret.push({name: `${process.env.BITBUCKET_CLONE_DIR}/${x[1]}`, status:x[0]})
+          if (x[1].match(/^docs\/.*\.dust$/gi)) {
+            ret.push({name: `${process.env.BITBUCKET_CLONE_DIR}/${x[1]}`, status:x[0]})
+          }
         })
         resolve(ret)
       }
@@ -108,7 +110,7 @@ const work = ()=>{
         .then((ret)=>{
           _send(ret)
           .then((messageId)=>{
-            resolve({'sttaus':'OK', 'data':messageId})
+            resolve({'status':'OK', 'data':messageId})
           })
           .catch((err)=>{
             resolve({'status':'FAIL', 'err':err})
