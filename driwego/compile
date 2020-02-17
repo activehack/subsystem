@@ -65,7 +65,8 @@ const get_compiled_data = (fin)=>{
         const compiled = dust.compile(src)
         const ret = {
           name: path.basename(fin, '.dust'), 
-          output: Buffer.from(compiled).toString('base64'), 
+          source: src,
+          output: Buffer.from(compiled).toString('base64'),
           action: 'UPDATE'
         }
         resolve(ret)
