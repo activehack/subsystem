@@ -139,6 +139,7 @@ const work = ()=>{
       keyFilename: sa
     })
     const topic = pubsub.topic(process.env.TOPIC)
+    console.log(`Pub/Sub topic is ${process.env.TOPIC}`)
 
     //Get latest files
     get_updated_files()
