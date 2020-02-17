@@ -21,7 +21,10 @@ const get_updated_files = ()=>{
         u.forEach((r)=>{
           const x = r.split(/\t+/g)
           if (x[1].match(/^docs\/.*\.dust$/gi)) {
+            console.log(`[OK] +${x[1]}`)
             ret.push({name: `${process.env.BITBUCKET_CLONE_DIR}/${x[1]}`, status:x[0]})
+          } else {
+            console.log(`[SKIP] +${x[1]}`)
           }
         })
         resolve(ret)
