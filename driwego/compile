@@ -24,7 +24,7 @@ const get_updated_files = ()=>{
             console.log(`[OK] +${x[1]}`)
             ret.push({name: `${process.env.BITBUCKET_CLONE_DIR}/${x[1]}`, status:x[0]})
           } else {
-            console.log(`[SKIP] +${x[1]}`)
+            console.log(`[SKIP] ${x[1]}`)
           }
         })
         resolve(ret)
