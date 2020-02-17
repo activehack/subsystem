@@ -80,6 +80,8 @@ const work = ()=>{
   const _publish = (topic, u) => {
 
     const _send = (data)=>{
+      data.branch = process.env.BITBUCKET_BRANCH
+      data.buildno = process.env.BITBUCKET_BUILD_NUMBER      
       return new Promise((resolve, reject)=>{
         topic.publishJSON(data)
         .then((messageId)=>{
