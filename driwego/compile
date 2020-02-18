@@ -61,10 +61,11 @@ const get_compiled_data = (fin)=>{
         console.log(err)
         reject(err)
       } else {
+        const name = path.basename(fin, '.dust')
         console.log('Compiling...')
-        const compiled = dust.compile(src)
+        const compiled = dust.compile(src,name)
         const ret = {
-          name: path.basename(fin, '.dust'), 
+          name: name, 
           source: Buffer.from(src).toString('base64'),
           output: Buffer.from(compiled).toString('base64'),
           action: 'UPDATE'
