@@ -65,8 +65,8 @@ const get_compiled_data = (fin)=>{
         console.log('Compiling...')
         try {
           const compiled = dust.compile(src,name)
-        } else {
-          reject(new Error('Compile fail'))
+        } catch(e) {
+          reject(e)
           return
         }
         const ret = {
