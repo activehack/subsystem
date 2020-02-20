@@ -65,17 +65,17 @@ const get_compiled_data = (fin)=>{
         console.log('Compiling...')
         try {
           const compiled = dust.compile(src,name)
+          const ret = {
+            name: name, 
+            source: Buffer.from(src).toString('base64'),
+            output: Buffer.from(compiled).toString('base64'),
+            action: 'UPDATE'
+          }
+          resolve(ret)
         } catch(e) {
           reject(e)
           return
         }
-        const ret = {
-          name: name, 
-          source: Buffer.from(src).toString('base64'),
-          output: Buffer.from(compiled).toString('base64'),
-          action: 'UPDATE'
-        }
-        resolve(ret)
       }
     }) 
   })
